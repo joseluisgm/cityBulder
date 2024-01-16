@@ -1,17 +1,19 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class City : MonoBehaviour
 {
     public float curDayTime;
     private float dayTime=24;
     private float minutes;
-    public float seepdFactor=1;
-    
+    public float speedFactor= 1;
+    public GameObject sun;
     private float seepdFactor_temp;
     public TextMeshProUGUI timeText;
 
@@ -27,6 +29,7 @@ public class City : MonoBehaviour
 
     public TextMeshProUGUI stastText;
     public List<Building> buildings=new List<Building>();
+    public GameObject ButtonSelected;
 
     public static City Instance;
 
@@ -38,6 +41,7 @@ public class City : MonoBehaviour
     }
     private void Start()
     {
+        ButtonSelected.GetComponent<Image>().color =new Color(0.90f,0.23f,0.23f,1);
         UpdateStatsText();
     }
     public void OnPlaceBuilding(Building building)
@@ -116,7 +120,7 @@ public class City : MonoBehaviour
 
     private void DayCycle()
     {
-        curDayTime += Time.deltaTime * seepdFactor;
+        curDayTime += Time.deltaTime * speedFactor;
         if(curDayTime >= dayTime)
         {
             curDayTime = 0;
@@ -124,7 +128,7 @@ public class City : MonoBehaviour
         }
 
         double hour=Math.Truncate(curDayTime);
-        minutes += seepdFactor * (Time.deltaTime * 6) * 10;
+        minutes += speedFactor * (Time.deltaTime * 6) * 10;
         double minutesDouble=Math.Truncate(minutes);
         if (minutesDouble >= 60)
             minutes = 0;
@@ -132,5 +136,24 @@ public class City : MonoBehaviour
         string minutesString = minutes.ToString("00");
         timeText.text = hourString +":"+ minutesString;
 
+        sun.transform.rotation=Quaternion.Euler(((curDayTime-6)/dayTime)*360,0f,0f);
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * 2);
+
+    }
+
+    public void SpeedDayCycle(int factor)
+    {
+        speedFactor=factor;
+    }
+
+    public void ChangeColor (GameObject button)
+    {
+        if(ButtonSelected != null)
+        {
+            ButtonSelected.GetComponent<Image>().color = Color.white;
+            ButtonSelected = button;
+            ButtonSelected.GetComponent<Image>().color = new Color(0.90f, 0.23f, 0.23f,1);
+        }
+       
     }
 }
