@@ -9,27 +9,40 @@ using UnityEngine.UI;
 
 public class City : MonoBehaviour
 {
-    public float curDayTime;
+    [SerializeField]
+    private float curDayTime;
     private float dayTime=24;
     private float minutes;
-    public float speedFactor= 1;
-    public GameObject sun;
+    [SerializeField]
+    private float speedFactor= 1;
+    [SerializeField]
+    private GameObject sun;
     private float seepdFactor_temp;
-    public TextMeshProUGUI timeText;
+    [SerializeField]
+    private TextMeshProUGUI timeText;
 
-    public int money;
-    public int day;
-    public int curPopulation;
-    public int curJobs;
-    public int curFood;
-    public int maxPopulation;
-    public int maxJobs;
-    public int incomePerJob;
+    [SerializeField]
+    private int money;
+    [SerializeField]
+    private int day;
+    [SerializeField]
+    private int curPopulation;
+    [SerializeField]
+    private int curJobs;
+    [SerializeField]
+    private int curFood;
+    [SerializeField]
+    private int maxPopulation;
+    [SerializeField]
+    private int maxJobs;
+    [SerializeField]
+    private int incomePerJob;
     private int aux;
 
-    public TextMeshProUGUI stastText;
-    public List<Building> buildings=new List<Building>();
-    public GameObject ButtonSelected;
+    [SerializeField]
+    private TextMeshProUGUI stastText;
+    public List<Building> buildings { get; private set; }
+    private GameObject ButtonSelected;
 
     public static City Instance;
 
@@ -46,9 +59,9 @@ public class City : MonoBehaviour
     }
     public void OnPlaceBuilding(Building building)
     {
-        money -= building.presert.cost;
-        maxPopulation += building.presert.population;
-        maxJobs += building.presert.jobs;
+        money -= building.Preset.Cost;
+        maxPopulation += building.Preset.Population;
+        maxJobs += building.Preset.Jobs;
         buildings.Add(building);
         UpdateStatsText();
     }
@@ -60,8 +73,8 @@ public class City : MonoBehaviour
 
     public void OnRemove(Building building)
     {
-        maxPopulation -= building.presert.population;
-        maxJobs -= building.presert.jobs;
+        maxPopulation -= building.Preset.Population;
+        maxJobs -= building.Preset.Jobs;
 
         buildings.Remove(building);
         Destroy(building.gameObject);
@@ -84,7 +97,7 @@ public class City : MonoBehaviour
         curFood = 0;
         foreach (Building building in buildings)
         {
-            curFood += building.presert.food;
+            curFood += building.Preset.Food;
         }
     }
 
@@ -110,7 +123,7 @@ public class City : MonoBehaviour
         money += curJobs * incomePerJob;
         foreach(Building building in buildings)
         {
-            money-= building.presert.costPerTurn;
+            money-= building.Preset.CostPerTurn;
         }
     }
     private void FixedUpdate()
