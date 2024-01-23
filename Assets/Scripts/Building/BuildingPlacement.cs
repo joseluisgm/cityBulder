@@ -10,14 +10,16 @@ public class BuildingPlacement : MonoBehaviour
 {
     private bool currentlyPlacing;
     private bool currentlyBullDozering;
-    private BuildingPresert curBuildingPreset;
+    private BuildingPreset curBuildingPreset;
     private float indicatorUpDateRate = 0.05f;
     private float lastUpdateTime;
     private Vector3 curIndicatorPos;
 
 
-    public GameObject PlacementIndicator;
-    public GameObject BulldozerIndicator;
+    [SerializeField]
+    private GameObject PlacementIndicator;
+    [SerializeField]
+    private GameObject BulldozerIndicator;
    
     private PlayerInputsMaps playerInputs;
 
@@ -30,14 +32,14 @@ public class BuildingPlacement : MonoBehaviour
         playerInputs.Enable();
     }
 
-    public void begingNewBuildingPlacement(BuildingPresert presert)
+    public void begingNewBuildingPlacement(BuildingPreset presert)
     {
         if (currentlyBullDozering) CancelDozerPlacement();     
         currentlyPlacing = true;
         curBuildingPreset = presert;
 
-        PlacementIndicator.GetComponentInChildren<MeshFilter>().mesh = presert.prefab.GetComponentInChildren<MeshFilter>().sharedMesh;
-        PlacementIndicator.GetComponentInChildren<Transform>().localScale = presert.prefab.transform.GetChild(0).localScale;
+        PlacementIndicator.GetComponentInChildren<MeshFilter>().mesh = presert.Prefab.GetComponentInChildren<MeshFilter>().sharedMesh;
+        PlacementIndicator.GetComponentInChildren<Transform>().localScale = presert.Prefab.transform.GetChild(0).localScale;
         PlacementIndicator.SetActive(true);        
         PlacementIndicator.transform.position = new Vector3(0, -99, 0);
     }
@@ -89,7 +91,7 @@ public class BuildingPlacement : MonoBehaviour
             {
                 if (!City.Instance.buildings.Find(x => x.transform.position == curIndicatorPos))
                 {
-                    GameObject buildingObj = Instantiate(curBuildingPreset.prefab, curIndicatorPos, PlacementIndicator.transform.rotation);
+                    GameObject buildingObj = Instantiate(curBuildingPreset.Prefab, curIndicatorPos, PlacementIndicator.transform.rotation);
                     City.Instance.OnPlaceBuilding(buildingObj.GetComponent<Building>());
                 }
             }
@@ -118,7 +120,4 @@ public class BuildingPlacement : MonoBehaviour
         }
       
     }
-
-  
-
 }

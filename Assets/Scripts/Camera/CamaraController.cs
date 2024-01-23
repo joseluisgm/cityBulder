@@ -6,14 +6,21 @@ using UnityEngine.Windows;
 
 public class CamaraController : MonoBehaviour
 {
-    public float moveSpeed;
-    public float minXRot;
-    public float maxXRot;
+    [SerializeField]
+    private float moveSpeed;
+    [SerializeField]
+    private float minXRot;
+    [SerializeField]
+    private float maxXRot;
     private float curXRot;
-    public float minZoom;
-    public float maxZoom;
-    public float zoomSpeed;
-    public float rotateSpeed;
+    [SerializeField]
+    private float minZoom;
+    [SerializeField]
+    private float maxZoom;
+    [SerializeField]
+    private float zoomSpeed;
+    [SerializeField]
+    private float rotateSpeed;
     private float curZoom;
     // reference to the camera object
     private Camera cam;

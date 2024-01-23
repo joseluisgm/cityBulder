@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class Selector : MonoBehaviour
 {
     private Camera cam;
-    public static Selector Instance;
+    public static Selector Instance { get; private set; }
 
 
     private void Awake()
